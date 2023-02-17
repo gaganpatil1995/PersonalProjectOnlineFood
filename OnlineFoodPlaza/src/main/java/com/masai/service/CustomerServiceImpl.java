@@ -1,6 +1,7 @@
 package com.masai.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,16 +44,29 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public Customer updateCustomer(Customer customer) throws CustomerException {
-		// TODO Auto-generated method stub
-		return null;
+		 Optional<Customer> opt = customerDao.findById(customer.getCustomerId()) ;
+		 
+		 if(opt.isEmpty()) {
+			 throw new CustomerException("No Customer found");
+		 }
+		 
+		 
+		return customerDao.save(customer);
 	}
 
 
 
 	@Override
-	public Customer removeCustomer(Customer customer) throws CustomerException {
-		// TODO Auto-generated method stub
-		return null;
+	public Customer removeCustomer(Integer customerId) throws CustomerException {
+	
+		Optional<Customer> opt = customerDao.findById(customerId) ;
+		
+		if(opt.isEmpty()) {
+			throw new CustomerException("Customer not Found") ;
+		}
+		Customer customer = opt.get() ;
+		 customerDao.delete(customer);
+		 return customer ;
 	}
 
     
