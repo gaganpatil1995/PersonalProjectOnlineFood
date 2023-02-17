@@ -10,7 +10,7 @@ public interface CustomerService {
 	public Customer addCustomer(Customer customer) ;
 	public List<Customer> getAllCustomer() throws CustomerException ;
 	public Customer updateCustomer(Customer customer) throws CustomerException;
-	public Customer removeCustomer(Customer customer) throws CustomerException;
+	public Customer removeCustomer(Integer customerId) throws CustomerException;
 	
 }
 	
