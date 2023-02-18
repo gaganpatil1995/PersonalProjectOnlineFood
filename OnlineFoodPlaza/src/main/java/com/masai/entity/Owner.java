@@ -42,5 +42,5 @@ public class Owner {
 	List<Resturant> resturantId = new ArrayList<>() ; 
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	Address address ;
+	OwnerAddress ownerAddress ;
 }
