@@ -36,6 +36,6 @@ public class Resturant {
 	private Address address ;
 	
 	@OneToMany
-	private List<ItemCategory> listOfItemCategory ;
+	private List<Items> listOfItems ;
 	
 }

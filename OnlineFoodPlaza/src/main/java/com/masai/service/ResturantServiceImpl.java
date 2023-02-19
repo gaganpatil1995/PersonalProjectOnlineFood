@@ -6,9 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.masai.entity.ItemCategory;
 import com.masai.entity.Items;
 import com.masai.entity.Resturant;
+import com.masai.exception.ItemsException;
+import com.masai.exception.ResturantException;
 import com.masai.repository.ItemCategoryDao;
 import com.masai.repository.ItemDao;
 import com.masai.repository.ResturantDao;
@@ -34,36 +35,62 @@ public class ResturantServiceImpl implements ResturantService{
 	}
 	@Override
 	public String RemoveResturant(Integer Id) {
-//		Optional<Resturant> res =  resDao.findById(Id);
-//		Resturant resturant =  res.get();
+		Optional<Resturant> res =  resDao.findById(Id);
+		Resturant resturant =  res.get();
 		
-		 resDao.deleteById(Id);
-		return "Resturant Deleted";
-	}
-	@Override
-	public ItemCategory AddResturantItemCategory(Integer ResId, ItemCategory itemCat) {
-    List<Items> listItems = itemCat.getItems();
-		
-		for(Items I :listItems) {
-			I.setCategory(itemCat);
-		}
-		Optional<Resturant> res = resDao.findById(ResId);
-		Resturant resturant = res.get();
-		List<ItemCategory> listItemCategory = resturant.getListOfItemCategory();
-		
-		listItemCategory.add(itemCat);
-		itemCatDao.save(itemCat);
-		
-		
-		return itemCat ;
-//		return null;
+		resDao.delete(resturant);
+		return "Resturant Deleted"+" "+resturant;
 	}
 	
 	@Override
-	public List<Resturant> getAllResturant() {
+	public List<Items> AddResturantItems(Integer ResId, Items item) throws ResturantException {
+    
+		Optional<Resturant> opt = resDao.findById(ResId);
+		
+		if(opt.isEmpty()) {
+			throw new ResturantException("Resturant is  not present with given id");
+		}
+		Resturant resturant = opt.get() ;
+		List<Items> items = resturant.getListOfItems() ;
+		
+		for(Items ite : items) {
+			if(ite.equals(item)) {
+			int quantity = item.getItemQuantity()+ ite.getItemQuantity() ;
+			ite.setItemQuantity(quantity); 
+			return items ;
+			}
+		}
+		
+		items.add(item) ;
+		
+		resturant.setListOfItems(items);
+		
+		resDao.save(resturant) ;
+		
+		return items ;
+	
+
+	}
+	
+	@Override
+	public List<Resturant> getAllResturant() throws ResturantException{
 	
 		List<Resturant> listOfRes =	resDao.findAll();
+		if(listOfRes.isEmpty()) {
+			throw new ResturantException("No Resturant found");
+		}
 		return listOfRes;
+	}
+	
+	
+	@Override
+	public Resturant getResturantById(Integer resturantId) throws ResturantException {
+		Optional<Resturant> opt = resDao.findById(resturantId);
+		if(opt.isEmpty()) {
+			throw new ResturantException("Resturant is not found with given Id");
+		}
+		
+		return opt.get();
 	}
 	
 }

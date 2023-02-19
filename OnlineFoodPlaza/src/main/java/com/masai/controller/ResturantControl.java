@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.masai.entity.ItemCategory;
+import com.masai.entity.Items;
 import com.masai.entity.Resturant;
+import com.masai.exception.ResturantException;
 import com.masai.repository.ItemCategoryDao;
 import com.masai.service.ResturantServiceImpl;
 
@@ -26,7 +28,7 @@ public class ResturantControl {
 	ItemCategoryDao itemCatDao ;
 	
 	@GetMapping("/resturant")
-	public List<Resturant> getAllResturant() {
+	public List<Resturant> getAllResturant() throws ResturantException {
 		return resService.getAllResturant();
 	}
 	
@@ -40,7 +42,7 @@ public class ResturantControl {
 		return resService.RemoveResturant(id);
 	}
 	@PutMapping("/resturanItem/{id}")
-	public ItemCategory addItemCategory(@PathVariable Integer id,@RequestBody ItemCategory itemCat) {
-		return resService.AddResturantItemCategory(id, itemCat);
+	public List<Items> addItemCategory(@PathVariable Integer id,@RequestBody Items item) throws ResturantException {
+		return resService.AddResturantItems(id, item);
 	}
 }

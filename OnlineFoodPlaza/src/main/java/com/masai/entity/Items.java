@@ -26,12 +26,10 @@ public class Items {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer itemId ;
-	private String itemName ;
-	private Integer itemQuantity;
 	
-	@ManyToOne(cascade= CascadeType.ALL)
-	@JsonIgnore
-	private ItemCategory category ;
+	private String itemName ;
+	
+	private Integer itemQuantity;
 	
 	private Integer itemCost ;
      
