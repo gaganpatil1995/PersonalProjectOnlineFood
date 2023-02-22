@@ -20,8 +20,7 @@ public class ResturantServiceImpl implements ResturantService{
 	@Autowired
 	ResturantDao resDao ;
 	
-	@Autowired
-	ItemCategoryDao itemCatDao ;
+
 	
 	@Autowired
 	ItemDao itemDao ;
@@ -54,15 +53,18 @@ public class ResturantServiceImpl implements ResturantService{
 		List<Items> items = resturant.getListOfItems() ;
 		
 		for(Items ite : items) {
-			if(ite.equals(item)) {
+			if(ite.getItemName().equalsIgnoreCase(item.getItemName())) {
 			int quantity = item.getItemQuantity()+ ite.getItemQuantity() ;
 			ite.setItemQuantity(quantity); 
+			resturant.setListOfItems(items);
+			itemDao.save(item) ;
+			resDao.save(resturant) ;
 			return items ;
 			}
 		}
 		
 		items.add(item) ;
-		
+		itemDao.save(item) ;
 		resturant.setListOfItems(items);
 		
 		resDao.save(resturant) ;

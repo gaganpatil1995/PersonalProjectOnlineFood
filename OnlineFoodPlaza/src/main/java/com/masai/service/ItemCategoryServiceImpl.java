@@ -42,7 +42,7 @@ public class ItemCategoryServiceImpl implements ItemCategoryService{
 	public ItemCategory addItemCategory(ItemCategory itemcat) {
 	   List<Items> items = itemcat.getItems();
 	   for(Items i :items) {
-		   i.setCategory(itemcat);
+//		   i.setCategory(itemcat);
 	   }
 	   
 		return catDao.save(itemcat) ;
@@ -53,7 +53,7 @@ public class ItemCategoryServiceImpl implements ItemCategoryService{
 		Optional<ItemCategory> itemcat1 =  catDao.findById(catid);
 		ItemCategory itemcat = itemcat1.get();
 		itemcat.getItems().add(item);
-		item.setCategory(itemcat);
+//		item.setCategory(itemcat);
 		return itemDao.save(item);
 	}
 
