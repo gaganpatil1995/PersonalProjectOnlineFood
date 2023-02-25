@@ -20,6 +20,7 @@ public interface ResturantService {
     public List<Items> getAllItems()throws ItemsException;
     public Items addItems(Items item);
     public Items getItemsById(Integer itemId)throws ItemsException ;
-    public String removeItemsById(Integer itemId)throws ItemsException ;
     public Items updateItems(Items item)throws ItemsException ; 
+    public String removeItemsById(Integer itemId)throws ItemsException ;
+    
 }
